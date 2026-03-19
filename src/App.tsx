@@ -48,7 +48,7 @@ const MESSAGES = [
 const FINAL_WISH = {
   title: "Aaj Tera Din Hai! 🎂",
   content: "19th March... is din ko toh quietly nahi jaane de sakta tha 😙. I wish tera ye birthday aur aane wala saal tere saare chaos ko 'fun' mein badal de. Stay amazing! Happy Birthday! ✨",
-  image: "/public/assets/pic.jpg"
+  image: "/public/pic.jpg"
 };
 
 const TypewriterText = ({ text, onComplete, isPaused = false, justify = "justify-center", delay = 40, className = "" }: { text: string; onComplete?: () => void; isPaused?: boolean; justify?: string; delay?: number; className?: string }) => {
@@ -282,7 +282,7 @@ export default function App() {
   }, [currentMsgIndex, step]);
 
   // Background music: Updated to local assets
-  const musicUrl = "/public/assets/song.mp3"; 
+  const musicUrl = "/public/song.mp3"; 
 
   const clearTimer = () => {
     if (timerRef.current) {
