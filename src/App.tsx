@@ -6,6 +6,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { Heart, ChevronRight, Volume2, VolumeX, RefreshCw, Sparkles, Terminal, Flower2, Play } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 
 const MESSAGES = [
   {
@@ -608,6 +609,7 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+      <Analytics />
     </div>
   );
 }
