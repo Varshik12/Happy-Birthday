@@ -54,7 +54,6 @@ const FINAL_WISH = {
 
 const TypewriterText = ({ text, onComplete, isPaused = false, justify = "justify-center", delay = 40, className = "" }: { text: string; onComplete?: () => void; isPaused?: boolean; justify?: string; delay?: number; className?: string }) => {
   const [visibleChars, setVisibleChars] = useState(0);
-  // Correctly handle emojis using Array.from
   const characters = Array.from(text);
 
   useEffect(() => {
@@ -74,8 +73,7 @@ const TypewriterText = ({ text, onComplete, isPaused = false, justify = "justify
     setVisibleChars(0);
   }, [text]);
 
-  // To prevent mid-word wrapping, we group characters into words
-  const words = text.split(/(\s+)/); // Keep spaces as separate elements
+  const words = text.split(/(\s+)/); 
   let globalCharIndex = 0;
 
   return (
@@ -210,27 +208,19 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
 const Atmosphere = () => {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      {/* Colorful Gradient Base */}
       <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-indigo-50 to-amber-50" />
-      
       <StarField />
-      
-      {/* Animated Colorful Blobs - More Vibrant */}
       <div className="absolute top-[-10%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-indigo-200/50 blur-[120px] animate-float-slow" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[80vw] h-[80vw] rounded-full bg-rose-200/50 blur-[150px] animate-float-slower" />
       <div className="absolute top-[20%] right-[5%] w-[40vw] h-[40vw] rounded-full bg-violet-200/50 blur-[100px] animate-float-fastest" />
       <div className="absolute bottom-[20%] left-[5%] w-[50vw] h-[50vw] rounded-full bg-teal-100/40 blur-[130px] animate-float-slow" style={{ animationDelay: '-5s' }} />
       <div className="absolute top-[40%] left-[30%] w-[30vw] h-[30vw] rounded-full bg-amber-100/40 blur-[90px] animate-pulse" style={{ animationDuration: '8s' }} />
-      
-      {/* Subtle Noise Texture Overlay */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
         style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/feTurbulence%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} 
       />
     </div>
   );
 };
-
-const CornerLogs = () => null;
 
 const BirthdayCap = () => (
   <motion.div 
@@ -278,11 +268,30 @@ export default function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // --- MICROSOFT CLARITY SCRIPT INJECTION ---
+  useEffect(() => {
+    const clarityScript = document.createElement("script");
+    clarityScript.type = "text/javascript";
+    clarityScript.innerHTML = `
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "vzduxdg53o");
+    `;
+    document.head.appendChild(clarityScript);
+
+    return () => {
+      // Optional: Clean up if needed, though usually not required for analytics
+      document.head.removeChild(clarityScript);
+    };
+  }, []);
+  // ------------------------------------------
+
   useEffect(() => {
     setIsTitleFinished(false);
   }, [currentMsgIndex, step]);
 
-  // Background music: Updated to local assets
   const musicUrl = "/song.mp3"; 
 
   const clearTimer = () => {
@@ -354,7 +363,6 @@ export default function App() {
 
   useEffect(() => {
     if (isPaused) return;
-
     return () => clearTimer();
   }, [step, isPaused]);
 
@@ -368,7 +376,6 @@ export default function App() {
       <audio ref={audioRef} src={musicUrl} loop />
       <Atmosphere />
       
-      {/* Aesthetic Vertical Rail */}
       <div className="fixed left-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-12 opacity-30 z-10">
         <span className="rail-text text-[10px] uppercase tracking-[0.5em] font-mono text-stone-900">Memories // 2026</span>
         <div className="w-px h-24 bg-stone-300" />
@@ -379,14 +386,12 @@ export default function App() {
         {step === 'loading' && <Preloader onComplete={() => setStep('intro')} />}
       </AnimatePresence>
 
-      {/* Heart Particles - Hidden on Final Photo Slide */}
       {step !== 'final' && [...Array(20)].map((_, i) => (
         <div key={`heart-${i}`}>
           <HeartParticle delay={i * 2} />
         </div>
       ))}
       
-      {/* Music Control */}
       {step !== 'intro' && step !== 'loading' && (
           <motion.button
             initial={{ opacity: 0 }}
@@ -462,7 +467,6 @@ export default function App() {
                 )}
               </div>
               
-              {/* Small Pause Button on Slide */}
               <motion.button
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.2 }}
@@ -565,7 +569,6 @@ export default function App() {
                     />
                   )}
                   
-                  {/* Small Pause Button */}
                   <motion.button
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.2 }}
